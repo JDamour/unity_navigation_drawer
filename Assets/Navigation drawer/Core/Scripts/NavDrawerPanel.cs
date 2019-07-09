@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -7,22 +6,35 @@ namespace NavigationDrawer.UI
 {
     public class NavDrawerPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public enum ENavigation
+        private enum ENavigation
         {
             Left,
             Right
         }
 
         [SerializeField, Header("Components")]
-        public Image ImgBackground;
-        public GameObject PanelLayer;
+        private Image _imgBackground;
+
+        [SerializeField]
+        private GameObject _panelLayer;
+
+        [SerializeField]
+        private Canvas _canvas;
 
         [SerializeField, Header("Properties")]
-        public ENavigation NavigationType;
-        public bool DarkenBackground = true;
-        public bool TapBackgroundToClose;
-        public bool OpenOnStart;
-        public float AnimationDuration = 0.5f;
+        private ENavigation _navigationType;
+
+        [SerializeField]
+        private bool _darkenBackground = true;
+
+        [SerializeField]
+        private bool _tapBackgroundToClose = true;
+
+        [SerializeField]
+        private bool _openOnStart;
+
+        [SerializeField]
+        private float _animationDuration = 0.5f;
 
         private int _animState;
         private float _maxPosition;
@@ -33,28 +45,26 @@ namespace NavigationDrawer.UI
 
         private RectTransform _rectTransform;
         private RectTransform _backgroundRectTransform;
-
         private GameObject _backgroundGameObject;
-
         private CanvasGroup _backgroundCanvasGroup;
-        
+
         private Vector2 _currentPos;
         private Vector2 _tempVector2;
 
         private void Awake()
         {
             _rectTransform = gameObject.GetComponent<RectTransform>();
-            _backgroundRectTransform = ImgBackground.GetComponent<RectTransform>();
-            _backgroundCanvasGroup = ImgBackground.GetComponent<CanvasGroup>();
+            _backgroundRectTransform = _imgBackground.GetComponent<RectTransform>();
+            _backgroundCanvasGroup = _imgBackground.GetComponent<CanvasGroup>();
         }
 
         private void Start()
         {
-            if (NavigationType == ENavigation.Left)
+            if (_navigationType == ENavigation.Left)
             {
                 _maxPosition = _rectTransform.rect.width / 2;
             }
-            else if (NavigationType == ENavigation.Right)
+            else if (_navigationType == ENavigation.Right)
             {
                 _maxPosition = -_rectTransform.rect.width / 2;
             }
@@ -63,16 +73,16 @@ namespace NavigationDrawer.UI
 
             RefreshBackgroundSize();
 
-            _backgroundGameObject = ImgBackground.gameObject;
+            _backgroundGameObject = _imgBackground.gameObject;
 
-            if (OpenOnStart)
+            if (_openOnStart)
             {
                 Open();
             }
             else
             {
                 _backgroundGameObject.SetActive(false);
-                PanelLayer.SetActive(false);
+                _panelLayer.SetActive(false);
             }
         }
 
@@ -82,54 +92,56 @@ namespace NavigationDrawer.UI
             {
                 _animDeltaTime = Time.realtimeSinceStartup - _animStartTime;
 
-                if (_animDeltaTime <= AnimationDuration)
+                if (_animDeltaTime <= _animationDuration)
                 {
-                    _rectTransform.anchoredPosition = QuintOut(_currentPos, new Vector2(_maxPosition, _rectTransform.anchoredPosition.y), _animDeltaTime, AnimationDuration);
-                    if (DarkenBackground)
+                    _rectTransform.anchoredPosition = QuintOut(_currentPos, new Vector2(_maxPosition, _rectTransform.anchoredPosition.y), _animDeltaTime, _animationDuration);
+                    if (_darkenBackground)
                     {
-                        _backgroundCanvasGroup.alpha = QuintOut(_currentBackgroundAlpha, 1f, _animDeltaTime, AnimationDuration);
+                        _backgroundCanvasGroup.alpha = QuintOut(_currentBackgroundAlpha, 1f, _animDeltaTime, _animationDuration);
                     }
                 }
                 else
                 {
                     _rectTransform.anchoredPosition = new Vector2(_maxPosition, _rectTransform.anchoredPosition.y);
-                    if (DarkenBackground)
+                    if (_darkenBackground)
                     {
                         _backgroundCanvasGroup.alpha = 1f;
                     }
+
                     _animState = 0;
                 }
             }
             else if (_animState == 2)
             {
                 _animDeltaTime = Time.realtimeSinceStartup - _animStartTime;
-                if (_animDeltaTime <= AnimationDuration)
+                if (_animDeltaTime <= _animationDuration)
                 {
-                    _rectTransform.anchoredPosition = QuintOut(_currentPos, new Vector2(_minPosition, _rectTransform.anchoredPosition.y), _animDeltaTime, AnimationDuration);
-                    if (DarkenBackground)
+                    _rectTransform.anchoredPosition = QuintOut(_currentPos, new Vector2(_minPosition, _rectTransform.anchoredPosition.y), _animDeltaTime, _animationDuration);
+                    if (_darkenBackground)
                     {
-                        _backgroundCanvasGroup.alpha = QuintOut(_currentBackgroundAlpha, 0f, _animDeltaTime, AnimationDuration);
+                        _backgroundCanvasGroup.alpha = QuintOut(_currentBackgroundAlpha, 0f, _animDeltaTime, _animationDuration);
                     }
                 }
                 else
                 {
                     _rectTransform.anchoredPosition = new Vector2(_minPosition, _rectTransform.anchoredPosition.y);
-                    if (DarkenBackground)
+                    if (_darkenBackground)
                     {
                         _backgroundCanvasGroup.alpha = 0f;
                     }
+
                     _backgroundGameObject.SetActive(false);
-                    PanelLayer.SetActive(false);
+                    _panelLayer.SetActive(false);
 
                     _animState = 0;
                 }
             }
 
-            if (NavigationType == ENavigation.Left)
+            if (_navigationType == ENavigation.Left)
             {
                 _rectTransform.anchoredPosition = new Vector2(Mathf.Clamp(_rectTransform.anchoredPosition.x, _minPosition, _maxPosition), _rectTransform.anchoredPosition.y);
             }
-            else if (NavigationType == ENavigation.Right)
+            else if (_navigationType == ENavigation.Right)
             {
                 _rectTransform.anchoredPosition = new Vector2(Mathf.Clamp(_rectTransform.anchoredPosition.x, _maxPosition, _minPosition), _rectTransform.anchoredPosition.y);
             }
@@ -137,7 +149,7 @@ namespace NavigationDrawer.UI
 
         public void BackgroundTap()
         {
-            if (TapBackgroundToClose)
+            if (_tapBackgroundToClose)
             {
                 Close();
             }
@@ -147,7 +159,7 @@ namespace NavigationDrawer.UI
         {
             RefreshBackgroundSize();
             _backgroundGameObject.SetActive(true);
-            PanelLayer.SetActive(true);
+            _panelLayer.SetActive(true);
             _currentPos = _rectTransform.anchoredPosition;
             _currentBackgroundAlpha = _backgroundCanvasGroup.alpha;
             _backgroundCanvasGroup.blocksRaycasts = true;
@@ -166,13 +178,15 @@ namespace NavigationDrawer.UI
 
         private void RefreshBackgroundSize()
         {
-            if (NavigationType == ENavigation.Left)
+            if (_navigationType == ENavigation.Left)
             {
-                _backgroundRectTransform.sizeDelta = new Vector2(Screen.width + 1f, _backgroundRectTransform.sizeDelta.y);
+                var width = _canvas.GetComponent<RectTransform>().rect.width;
+                _backgroundRectTransform.sizeDelta = new Vector2(width, _backgroundRectTransform.sizeDelta.y);
             }
-            else if(NavigationType == ENavigation.Right)
+            else if (_navigationType == ENavigation.Right)
             {
-                _backgroundRectTransform.sizeDelta = new Vector2(Screen.width, _backgroundRectTransform.sizeDelta.y);
+                var width = _canvas.GetComponent<RectTransform>().rect.width;
+                _backgroundRectTransform.sizeDelta = new Vector2(width, _backgroundRectTransform.sizeDelta.y);
                 _backgroundRectTransform.localPosition = new Vector2(-(_rectTransform.rect.width / 2), 0);
             }
         }
@@ -184,7 +198,7 @@ namespace NavigationDrawer.UI
             _animState = 0;
 
             _backgroundGameObject.SetActive(true);
-            PanelLayer.SetActive(true);
+            _panelLayer.SetActive(true);
         }
 
         public void OnDrag(PointerEventData data)
@@ -194,7 +208,7 @@ namespace NavigationDrawer.UI
 
             _rectTransform.anchoredPosition = _tempVector2;
 
-            if (DarkenBackground)
+            if (_darkenBackground)
             {
                 _backgroundCanvasGroup.alpha = 1 - (_maxPosition - _rectTransform.anchoredPosition.x) / (_maxPosition - _minPosition);
             }
@@ -202,7 +216,7 @@ namespace NavigationDrawer.UI
 
         public void OnEndDrag(PointerEventData data)
         {
-            if (NavigationType == ENavigation.Left)
+            if (_navigationType == ENavigation.Left)
             {
                 if (Mathf.Abs(data.delta.x) >= 0.5f)
                 {
@@ -228,7 +242,7 @@ namespace NavigationDrawer.UI
                     }
                 }
             }
-            else if(NavigationType == ENavigation.Right)
+            else if (_navigationType == ENavigation.Right)
             {
                 if (Mathf.Abs(data.delta.x) >= 0.5f)
                 {

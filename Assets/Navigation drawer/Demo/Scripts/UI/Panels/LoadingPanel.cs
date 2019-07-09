@@ -15,7 +15,7 @@ namespace Loading
         [SerializeField] private Text _txtLoading;
         [SerializeField] private Slider _slider;
 
-        public readonly float Speed = 0.1f;
+        private const float Speed = 0.1f;
         public bool Load { get; private set; }
 
         private void Update()

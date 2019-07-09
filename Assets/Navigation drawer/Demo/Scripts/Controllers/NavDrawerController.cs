@@ -1,5 +1,4 @@
-﻿using System;
-using NavigationDrawer.UI;
+﻿using NavigationDrawer.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,54 +7,68 @@ namespace NavigationDrawer.Controller
     public class NavDrawerController : MonoBehaviour
     {
         [SerializeField, Header("Nav panels")]
-        public NavDrawerPanelController NavDrawerPanelController;
-        public NavDrawerPanel NavDrawerPanel;
+        public NavDrawerPanelController _navDrawerPanelController;
+
+        [SerializeField]
+        public NavDrawerPanel _navDrawerPanel;
 
         [SerializeField, Header("Nav buttons")]
-        public Button BtnProfile;
-        public Button BtnRating;
-        public Button BtnHelp;
-        public Button BtnAbout;
-        public Button BtnTerms;
+        public Button _btnProfile;
+
+        [SerializeField]
+        public Button _btnRating;
+
+        [SerializeField]
+        public Button _btnHelp;
+
+        [SerializeField]
+        public Button _btnAbout;
+
+        [SerializeField]
+        public Button _btnTerms;
 
         private void Start()
         {
-            BtnProfile.onClick.AddListener(NavDrawerPanelOnProfile);
-            BtnRating.onClick.AddListener(NavDrawerPanelOnRating);
-            BtnHelp.onClick.AddListener(NavDrawerPanelOnHelp);
-            BtnAbout.onClick.AddListener(NavDrawerPanelOnAbout);
-            BtnTerms.onClick.AddListener(NavDrawerPanelOnTerms);
+            _btnProfile.onClick.AddListener(NavDrawerPanelOnProfile);
+            _btnRating.onClick.AddListener(NavDrawerPanelOnRating);
+            _btnHelp.onClick.AddListener(NavDrawerPanelOnHelp);
+            _btnAbout.onClick.AddListener(NavDrawerPanelOnAbout);
+            _btnTerms.onClick.AddListener(NavDrawerPanelOnTerms);
         }
 
         public void InitNavDrawer()
         {
-            NavDrawerPanel.Open();
+            _navDrawerPanel.Open();
         }
 
         public void CloseAllPanel()
         {
-            NavDrawerPanelController.CloseAllPanel();
+            _navDrawerPanelController.CloseAllPanel();
         }
 
         private void NavDrawerPanelOnProfile()
         {
-            NavDrawerPanelController.OpenProfilePanel();
+            _navDrawerPanelController.OpenProfilePanel();
         }
+
         private void NavDrawerPanelOnRating()
         {
-            NavDrawerPanelController.OpenRatingPanel();
+            _navDrawerPanelController.OpenRatingPanel();
         }
+
         private void NavDrawerPanelOnHelp()
         {
-            NavDrawerPanelController.OpenHelpPanel();
+            _navDrawerPanelController.OpenHelpPanel();
         }
+
         private void NavDrawerPanelOnAbout()
         {
-            NavDrawerPanelController.OpenAboutPanel();
+            _navDrawerPanelController.OpenAboutPanel();
         }
+
         private void NavDrawerPanelOnTerms()
         {
-            NavDrawerPanelController.OpenTermsPanel();
+            _navDrawerPanelController.OpenTermsPanel();
         }
     }
 }

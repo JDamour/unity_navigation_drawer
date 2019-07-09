@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using NavigationDrawer.UI;
 using UnityEngine;
 
@@ -7,58 +6,83 @@ namespace NavigationDrawer.Controller
 {
     public class NavDrawerPanelController : MonoBehaviour
     {
-        [SerializeField]
-        private Component Components;
+        [SerializeField, Header("Panels")]
+        private ProfilePanel _profilePanel;
 
-        [Serializable]
-        private class Component
-        {
-#pragma warning disable 649
-            public ProfilePanel ProfilePanel;
-            public RatingPanel RatingPanel;
-            public AboutPanel AboutPanel;
-            public TermsPanel TermsPanel;
-            public HelpPanel HelpPanel;
-            public GameObject BtnMenu;
-#pragma warning restore 649
-        }
+        [SerializeField]
+        private RatingPanel _ratingPanel;
+
+        [SerializeField]
+        private AboutPanel _aboutPanel;
+
+        [SerializeField]
+        private TermsPanel _termsPanel;
+
+        [SerializeField]
+        private HelpPanel _helpPanel;
+
+        [SerializeField]
+        private GameObject _btnMenu;
 
         public void OpenProfilePanel()
         {
-            OpenWindow(Components.ProfilePanel.gameObject);
+            OpenWindow(_profilePanel.gameObject);
         }
+
         public void OpenRatingPanel()
         {
-            OpenWindow(Components.RatingPanel.gameObject);
+            OpenWindow(_ratingPanel.gameObject);
         }
+
         public void OpenHelpPanel()
         {
-            OpenWindow(Components.HelpPanel.gameObject);
+            OpenWindow(_helpPanel.gameObject);
         }
+
         public void OpenAboutPanel()
         {
-            OpenWindow(Components.AboutPanel.gameObject);
+            OpenWindow(_aboutPanel.gameObject);
         }
+
         public void OpenTermsPanel()
         {
-            OpenWindow(Components.TermsPanel.gameObject);
+            OpenWindow(_termsPanel.gameObject);
         }
 
         public void SetActiveBtnMenu(bool value)
         {
-            Components.BtnMenu.SetActive(value);
+            _btnMenu.SetActive(value);
         }
 
         public void CloseAllPanel()
         {
-            if (Components.ProfilePanel.isActiveAndEnabled) { CloseWindow(Components.ProfilePanel.gameObject); }
-            if (Components.RatingPanel.isActiveAndEnabled) { CloseWindow(Components.RatingPanel.gameObject); }
-            if (Components.HelpPanel.isActiveAndEnabled) { CloseWindow(Components.HelpPanel.gameObject); }
-            if (Components.TermsPanel.isActiveAndEnabled) { CloseWindow(Components.TermsPanel.gameObject); }
-            if (Components.AboutPanel.isActiveAndEnabled) { CloseWindow(Components.AboutPanel.gameObject); }
+            if (_profilePanel.isActiveAndEnabled)
+            {
+                CloseWindow(_profilePanel.gameObject);
+            }
+
+            if (_ratingPanel.isActiveAndEnabled)
+            {
+                CloseWindow(_ratingPanel.gameObject);
+            }
+
+            if (_helpPanel.isActiveAndEnabled)
+            {
+                CloseWindow(_helpPanel.gameObject);
+            }
+
+            if (_termsPanel.isActiveAndEnabled)
+            {
+                CloseWindow(_termsPanel.gameObject);
+            }
+
+            if (_aboutPanel.isActiveAndEnabled)
+            {
+                CloseWindow(_aboutPanel.gameObject);
+            }
         }
 
-        private void CloseWindow(GameObject popup)
+        private static void CloseWindow(GameObject popup)
         {
             popup.GetComponent<Popup>().CloseWindow();
         }
@@ -68,7 +92,7 @@ namespace NavigationDrawer.Controller
             StartCoroutine(OpenWindowAsync(popup));
         }
 
-        private IEnumerator OpenWindowAsync(GameObject popup)
+        private static IEnumerator OpenWindowAsync(GameObject popup)
         {
             yield return new WaitForSeconds(0.25f);
 

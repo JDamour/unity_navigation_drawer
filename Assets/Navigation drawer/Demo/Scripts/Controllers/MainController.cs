@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Loading;
 using UnityEngine;
 
@@ -7,16 +6,8 @@ namespace NavigationDrawer.Controller
 {
     public class MainController : MonoBehaviour
     {
-        [SerializeField] private Controller Controllers;
-
-        [Serializable]
-        private class Controller
-        {
-#pragma warning disable 649
-            public NavDrawerController NavDrawerController;
-            public NavDrawerPanelController NavDrawerPanelController;
-#pragma warning restore 649
-        }
+        [SerializeField, Header("Controllers")]
+        private NavDrawerController _navDrawerController;
 
         private IEnumerator Start()
         {
@@ -31,12 +22,12 @@ namespace NavigationDrawer.Controller
         {
             yield return new WaitForSeconds(2.0f);
 
-            Init();
+            Initialize();
         }
 
-        private void Init()
+        private void Initialize()
         {
-            Controllers.NavDrawerController.InitNavDrawer();
+            _navDrawerController.InitNavDrawer();
         }
     }
 }

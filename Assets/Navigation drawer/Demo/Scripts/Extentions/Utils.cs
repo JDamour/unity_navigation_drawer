@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,16 +5,6 @@ namespace NavigationDrawer
 {
     public static class Utils
     {
-        public static string AbsoluteUrlOrEmptyString(this Uri uri)
-        {
-            if (uri == null)
-            {
-                return string.Empty;
-            }
-
-            return uri.AbsoluteUri;
-        }
-
         public static IEnumerator FadeIn(CanvasGroup group, float alpha, float duration)
         {
             var time = 0.0f;
