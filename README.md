@@ -17,7 +17,4 @@ In Demo folder, you will see an example of a project application for mobile devi
 </p>
 
 ## Compatibility
-Navigation Drawer is written in Unity 2018.4.3f1. Also works with versions since 5.x.x, 2017.x.x. (iOS, Android, PC, WebGL)
-
-## License
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](https://github.com/dworkinnn/navigation_drawer/blob/master/LICENSE) file for details
+Navigation Drawer is written in Unity 2019.4.0f1. Also works with versions since 5.x.x, 2017.x.x. (need to rebuild prefabs) (iOS, Android, PC, WebGL) 

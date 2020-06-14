@@ -4,13 +4,22 @@ namespace NavigationDrawer.UI
 {
     public class PopupOpener : MonoBehaviour
     {
-        public GameObject popupPrefab;
+        #region FIELDS
+
+        [SerializeField]
+        private GameObject _popupPrefab = default;
+
+        #endregion
+
+        #region PUBLIC_METHODS
 
         public virtual void OpenWindow()
         {
-            popupPrefab.SetActive(true);
-            popupPrefab.transform.localScale = Vector3.one;
-            popupPrefab.GetComponent<Popup>().Open();
+            _popupPrefab.SetActive(true);
+            _popupPrefab.transform.localScale = Vector3.one;
+            _popupPrefab.GetComponent<Popup>().Open();
         }
+
+        #endregion
     }
 }

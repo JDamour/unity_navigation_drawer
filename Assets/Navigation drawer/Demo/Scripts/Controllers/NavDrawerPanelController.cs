@@ -6,23 +6,29 @@ namespace NavigationDrawer.Controller
 {
     public class NavDrawerPanelController : MonoBehaviour
     {
+        #region FIELDS
+
         [SerializeField, Header("Panels")]
-        private ProfilePanel _profilePanel;
+        private ProfilePanel _profilePanel = default;
 
         [SerializeField]
-        private RatingPanel _ratingPanel;
+        private RatingPanel _ratingPanel = default;
 
         [SerializeField]
-        private AboutPanel _aboutPanel;
+        private AboutPanel _aboutPanel = default;
 
         [SerializeField]
-        private TermsPanel _termsPanel;
+        private TermsPanel _termsPanel = default;
 
         [SerializeField]
-        private HelpPanel _helpPanel;
+        private HelpPanel _helpPanel = default;
 
         [SerializeField]
-        private GameObject _btnMenu;
+        private GameObject _btnMenu = default;
+
+        #endregion
+
+        #region PUBLIC_METHODS
 
         public void OpenProfilePanel()
         {
@@ -82,6 +88,10 @@ namespace NavigationDrawer.Controller
             }
         }
 
+        #endregion
+
+        #region PRIVATE_METHODS
+
         private static void CloseWindow(GameObject popup)
         {
             popup.GetComponent<Popup>().CloseWindow();
@@ -100,5 +110,7 @@ namespace NavigationDrawer.Controller
             popup.transform.localScale = Vector3.one;
             popup.GetComponent<Popup>().Open();
         }
+
+        #endregion
     }
 }

@@ -6,26 +6,32 @@ namespace NavigationDrawer.Controller
 {
     public class NavDrawerController : MonoBehaviour
     {
+        #region FIELDS
+
         [SerializeField, Header("Nav panels")]
-        public NavDrawerPanelController _navDrawerPanelController;
+        public NavDrawerPanelController _navDrawerPanelController = default;
 
         [SerializeField]
-        public NavDrawerPanel _navDrawerPanel;
+        public NavDrawerPanel _navDrawerPanel = default;
 
         [SerializeField, Header("Nav buttons")]
-        public Button _btnProfile;
+        public Button _btnProfile = default;
 
         [SerializeField]
-        public Button _btnRating;
+        public Button _btnRating = default;
 
         [SerializeField]
-        public Button _btnHelp;
+        public Button _btnHelp = default;
 
         [SerializeField]
-        public Button _btnAbout;
+        public Button _btnAbout = default;
 
         [SerializeField]
-        public Button _btnTerms;
+        public Button _btnTerms = default;
+
+        #endregion
+
+        #region UNITY_METHODS
 
         private void Start()
         {
@@ -36,6 +42,10 @@ namespace NavigationDrawer.Controller
             _btnTerms.onClick.AddListener(NavDrawerPanelOnTerms);
         }
 
+        #endregion
+
+        #region PUBLIC_METHODS
+
         public void InitNavDrawer()
         {
             _navDrawerPanel.Open();
@@ -45,6 +55,10 @@ namespace NavigationDrawer.Controller
         {
             _navDrawerPanelController.CloseAllPanel();
         }
+
+        #endregion
+
+        #region PRIVATE_METHODS
 
         private void NavDrawerPanelOnProfile()
         {
@@ -70,5 +84,7 @@ namespace NavigationDrawer.Controller
         {
             _navDrawerPanelController.OpenTermsPanel();
         }
+
+        #endregion
     }
 }

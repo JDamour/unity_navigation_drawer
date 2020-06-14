@@ -6,12 +6,23 @@ namespace NavigationDrawer.UI
 {
     public class Popup : MonoBehaviour
     {
-        public Sprite PopupBackground;
-        public Material Blur;
-        public Color BackgroundColor = new Color(10.0f / 255.0f, 10.0f / 255.0f, 10.0f / 255.0f, 0.6f);
+        #region FIELDS
 
-        private const float DestroyTime = 0.2f;
+        [SerializeField]
+        private Sprite _popupBackground = default;
+
+        [SerializeField]
+        private Material _blur = default;
+
+        [SerializeField]
+        private Color _backgroundColor = new Color(10.0f / 255.0f, 10.0f / 255.0f, 10.0f / 255.0f, 0.6f);
+
+        private const float DESTROY_TIME = 0.2f;
         private GameObject _background;
+
+        #endregion
+
+        #region PUBLIC_METHODS
 
         public void Open()
         {
@@ -27,12 +38,16 @@ namespace NavigationDrawer.UI
             }
 
             RemoveBackground();
-            StartCoroutine(RunPopupDeactive());
+            StartCoroutine(RunPopupDeactiveAsync());
         }
 
-        private IEnumerator RunPopupDeactive()
+        #endregion
+
+        #region PRIVATE_METHODS
+
+        private IEnumerator RunPopupDeactiveAsync()
         {
-            yield return new WaitForSeconds(DestroyTime);
+            yield return new WaitForSeconds(DESTROY_TIME);
             Destroy(_background);
             gameObject.SetActive(false);
         }
@@ -42,8 +57,8 @@ namespace NavigationDrawer.UI
             _background = new GameObject("PopupBackground");
 
             var image = _background.AddComponent<Image>();
-            var sprite = PopupBackground;
-            var material = Blur;
+            var sprite = _popupBackground;
+            var material = _blur;
             var newColor = image.color;
 
             image.material = material;
@@ -65,5 +80,7 @@ namespace NavigationDrawer.UI
                 image.CrossFadeAlpha(0.0f, 0.2f, false);
             }
         }
+
+        #endregion
     }
 }

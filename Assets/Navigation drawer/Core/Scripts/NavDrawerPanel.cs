@@ -6,23 +6,29 @@ namespace NavigationDrawer.UI
 {
     public class NavDrawerPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        #region ENUMS
+
         private enum ENavigation
         {
             Left,
             Right
         }
 
+        #endregion
+
+        #region FIELDS
+
         [SerializeField, Header("Components")]
-        private Image _imgBackground;
+        private Image _imgBackground = default;
 
         [SerializeField]
-        private GameObject _panelLayer;
+        private GameObject _panelLayer = default;
 
         [SerializeField]
-        private Canvas _canvas;
+        private Canvas _canvas = default;
 
         [SerializeField, Header("Properties")]
-        private ENavigation _navigationType;
+        private ENavigation _navigationType = default;
 
         [SerializeField]
         private bool _darkenBackground = true;
@@ -31,7 +37,7 @@ namespace NavigationDrawer.UI
         private bool _tapBackgroundToClose = true;
 
         [SerializeField]
-        private bool _openOnStart;
+        private bool _openOnStart = default;
 
         [SerializeField]
         private float _animationDuration = 0.5f;
@@ -50,6 +56,10 @@ namespace NavigationDrawer.UI
 
         private Vector2 _currentPos;
         private Vector2 _tempVector2;
+
+        #endregion
+
+        #region UNITY_METHODS
 
         private void Awake()
         {
@@ -147,50 +157,6 @@ namespace NavigationDrawer.UI
             }
         }
 
-        public void BackgroundTap()
-        {
-            if (_tapBackgroundToClose)
-            {
-                Close();
-            }
-        }
-
-        public void Open()
-        {
-            RefreshBackgroundSize();
-            _backgroundGameObject.SetActive(true);
-            _panelLayer.SetActive(true);
-            _currentPos = _rectTransform.anchoredPosition;
-            _currentBackgroundAlpha = _backgroundCanvasGroup.alpha;
-            _backgroundCanvasGroup.blocksRaycasts = true;
-            _animStartTime = Time.realtimeSinceStartup;
-            _animState = 1;
-        }
-
-        public void Close()
-        {
-            _currentPos = _rectTransform.anchoredPosition;
-            _currentBackgroundAlpha = _backgroundCanvasGroup.alpha;
-            _backgroundCanvasGroup.blocksRaycasts = false;
-            _animStartTime = Time.realtimeSinceStartup;
-            _animState = 2;
-        }
-
-        private void RefreshBackgroundSize()
-        {
-            if (_navigationType == ENavigation.Left)
-            {
-                var width = _canvas.GetComponent<RectTransform>().rect.width;
-                _backgroundRectTransform.sizeDelta = new Vector2(width, _backgroundRectTransform.sizeDelta.y);
-            }
-            else if (_navigationType == ENavigation.Right)
-            {
-                var width = _canvas.GetComponent<RectTransform>().rect.width;
-                _backgroundRectTransform.sizeDelta = new Vector2(width, _backgroundRectTransform.sizeDelta.y);
-                _backgroundRectTransform.localPosition = new Vector2(-(_rectTransform.rect.width / 2), 0);
-            }
-        }
-
         public void OnBeginDrag(PointerEventData data)
         {
             RefreshBackgroundSize();
@@ -270,12 +236,37 @@ namespace NavigationDrawer.UI
             }
         }
 
-        private Vector2 QuintOut(Vector2 startValue, Vector2 endValue, float time, float duration)
+        #endregion
+
+        #region PUBLIC_METHODS
+
+        public void BackgroundTap()
         {
-            var tempVector2 = startValue;
-            tempVector2.x = QuintOut(startValue.x, endValue.x, time, duration);
-            tempVector2.y = QuintOut(startValue.y, endValue.y, time, duration);
-            return tempVector2;
+            if (_tapBackgroundToClose)
+            {
+                Close();
+            }
+        }
+
+        public void Open()
+        {
+            RefreshBackgroundSize();
+            _backgroundGameObject.SetActive(true);
+            _panelLayer.SetActive(true);
+            _currentPos = _rectTransform.anchoredPosition;
+            _currentBackgroundAlpha = _backgroundCanvasGroup.alpha;
+            _backgroundCanvasGroup.blocksRaycasts = true;
+            _animStartTime = Time.realtimeSinceStartup;
+            _animState = 1;
+        }
+
+        public void Close()
+        {
+            _currentPos = _rectTransform.anchoredPosition;
+            _currentBackgroundAlpha = _backgroundCanvasGroup.alpha;
+            _backgroundCanvasGroup.blocksRaycasts = false;
+            _animStartTime = Time.realtimeSinceStartup;
+            _animState = 2;
         }
 
         protected virtual float QuintOut(float startValue, float endValue, float time, float duration)
@@ -297,5 +288,34 @@ namespace NavigationDrawer.UI
             time--;
             return differenceValue * (time * time * time * time * time + 1) + startValue;
         }
+
+        #endregion
+
+        #region PRIVATE_METHODS
+
+        private void RefreshBackgroundSize()
+        {
+            if (_navigationType == ENavigation.Left)
+            {
+                var width = _canvas.GetComponent<RectTransform>().rect.width;
+                _backgroundRectTransform.sizeDelta = new Vector2(width, _backgroundRectTransform.sizeDelta.y);
+            }
+            else if (_navigationType == ENavigation.Right)
+            {
+                var width = _canvas.GetComponent<RectTransform>().rect.width;
+                _backgroundRectTransform.sizeDelta = new Vector2(width, _backgroundRectTransform.sizeDelta.y);
+                _backgroundRectTransform.localPosition = new Vector2(-(_rectTransform.rect.width / 2), 0);
+            }
+        }
+
+        private Vector2 QuintOut(Vector2 startValue, Vector2 endValue, float time, float duration)
+        {
+            var tempVector2 = startValue;
+            tempVector2.x = QuintOut(startValue.x, endValue.x, time, duration);
+            tempVector2.y = QuintOut(startValue.y, endValue.y, time, duration);
+            return tempVector2;
+        }
+
+        #endregion
     }
 }

@@ -6,8 +6,14 @@ namespace NavigationDrawer.Controller
 {
     public class MainController : MonoBehaviour
     {
+        #region FIELDS
+
         [SerializeField, Header("Controllers")]
-        private NavDrawerController _navDrawerController;
+        private NavDrawerController _navDrawerController = default;
+
+        #endregion
+
+        #region UNITY_METHODS
 
         private IEnumerator Start()
         {
@@ -17,6 +23,10 @@ namespace NavigationDrawer.Controller
 
             LoadingPanel.Instance.LoadingStop();
         }
+
+        #endregion
+
+        #region PRIVATE_METHODS
 
         private IEnumerator InitAsync()
         {
@@ -29,5 +39,7 @@ namespace NavigationDrawer.Controller
         {
             _navDrawerController.InitNavDrawer();
         }
+
+        #endregion
     }
 }

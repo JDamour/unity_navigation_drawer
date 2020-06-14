@@ -11,12 +11,28 @@ namespace Loading
 {
     public class LoadingPanel : Singleton<LoadingPanel>
     {
-        [SerializeField] private GameObject _root;
-        [SerializeField] private Text _txtLoading;
-        [SerializeField] private Slider _slider;
+        #region FIELDS
 
-        private const float Speed = 0.1f;
+        [SerializeField]
+        private GameObject _root = default;
+
+        [SerializeField]
+        private Text _txtLoading = default;
+
+        [SerializeField]
+        private Slider _slider = default;
+
+        private const float SPEED = 0.1f;
+
+        #endregion
+
+        #region PROPERTIES
+
         public bool Load { get; private set; }
+
+        #endregion
+
+        #region UNITY_METHODS
 
         private void Update()
         {
@@ -24,13 +40,17 @@ namespace Loading
 
             if (_slider.value < 1.0f)
             {
-                _slider.value = _slider.value + Time.deltaTime * Speed;
+                _slider.value = _slider.value + Time.deltaTime * SPEED;
             }
             else
             {
                 _slider.value = 0.0f;
             }
         }
+
+        #endregion
+
+        #region PUBLIC_METHODS
 
         public void LoadingStart(ELoading state)
         {
@@ -56,5 +76,7 @@ namespace Loading
             Load = false;
             _root.SetActive(false);
         }
+
+        #endregion
     }
 }

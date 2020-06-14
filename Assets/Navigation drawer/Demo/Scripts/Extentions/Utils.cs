@@ -5,6 +5,8 @@ namespace NavigationDrawer
 {
     public static class Utils
     {
+        #region PUBLIC_METHODS
+
         public static IEnumerator FadeIn(CanvasGroup group, float alpha, float duration)
         {
             var time = 0.0f;
@@ -32,5 +34,7 @@ namespace NavigationDrawer
 
             group.alpha = alpha;
         }
+
+        #endregion
     }
 }
